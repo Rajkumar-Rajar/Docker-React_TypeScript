@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
-function App() {
+
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+function App(): JSX.Element {
+
+  const [table, settable] = useState<object[]>([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((json) => settable(json));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bgcolor">
+      <div className="table">
+        <table className="table table-hover">
+          <thead style={{ backgroundColor: "lightblue" }}>
+            <tr>
+              <td>ID</td>
+              <td>NAME</td>
+              <td>EMAIL</td>
+            </tr>
+          </thead>
+          {table.map((e: any, i) => (
+            <tbody>
+            <tr key={i}>
+              <td>{e.id}</td>
+              <td>{e.name}</td>
+              <td>{e.email}</td>
+            
+            </tr>
+            </tbody>
+          ))}
+        </table>
+        
+      </div>
     </div>
   );
 }
